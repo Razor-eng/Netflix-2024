@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import Login from './Login';
-import Home from './Home';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, selectUser } from './features/userSlice';
 import { auth } from './firebase';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Page from './Page';
 
 function App() {
   const user = useSelector(selectUser);
@@ -16,7 +17,7 @@ function App() {
           email: user.email
         }))
       } else {
-        dispatch(logout);
+        dispatch(logout());
       }
     })
 
@@ -25,14 +26,12 @@ function App() {
 
 
   return (
-    <div>
-      {
-        !user ?
-          <Login />
-          :
-          <Home />
-      }
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/auth' element={<Login />} />
+        <Route path='/' element={<Page user={user} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

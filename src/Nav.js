@@ -4,12 +4,16 @@ import { auth } from './firebase'
 
 function Nav() {
     const [show, setShow] = useState(false)
+
     const transitionNavbar = () => {
         if (window.scrollY > 100) {
             setShow(true);
         } else {
             setShow(false);
         }
+    }
+    const Logout = () => {
+        auth.signOut();
     }
     useEffect(() => {
         window.addEventListener("scroll", transitionNavbar)
@@ -23,7 +27,7 @@ function Nav() {
         <div className={`nav ${show && "nav_black"}`}>
             <div className="nav_content">
                 <img src="/logo.png" alt="" className='logo' />
-                <img src="/avatar.png" alt="" onClick={e => { auth.signOut() }} className='nav_avatar' />
+                <img src="/avatar.png" alt="" onClick={e => Logout()} className='nav_avatar' />
             </div>
         </div>
     )
